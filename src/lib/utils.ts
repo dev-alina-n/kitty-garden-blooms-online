@@ -38,6 +38,10 @@ const strawberryNouns = [
   "Искорка", "Ягодка", "Росинка", "Улыбка", "Кнопочка"
 ];
 
+// Эмодзи для разных типов растений
+const flowerEmojis = ["🌸", "🌷", "🌹", "🌺", "🌻", "🌼", "💐", "🪷", "🏵️", "✨"];
+const strawberryEmojis = ["🍓", "🍰", "🧁", "🍭", "🍬", "🎀", "💕", "💖", "🌟", "✨"];
+
 /**
  * Генерирует случайное имя для растения в зависимости от его типа
  * @param type - тип растения ("flower" или "strawberry")
@@ -46,9 +50,11 @@ const strawberryNouns = [
 export function generatePlantName(type: "flower" | "strawberry"): string {
   const adjectives = type === "flower" ? flowerAdjectives : strawberryAdjectives;
   const nouns = type === "flower" ? flowerNouns : strawberryNouns;
+  const emojis = type === "flower" ? flowerEmojis : strawberryEmojis;
   
   const randomAdj = adjectives[Math.floor(Math.random() * adjectives.length)];
   const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
   
-  return `${randomAdj} ${randomNoun}`;
+  return `${randomAdj} ${randomNoun} ${randomEmoji}`;
 }
