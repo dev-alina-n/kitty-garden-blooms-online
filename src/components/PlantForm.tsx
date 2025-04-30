@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PlantType } from "./Plant";
+import { generatePlantName } from "@/lib/utils";
 
 interface PlantFormProps {
   onAddPlant: (plantData: {
@@ -31,12 +32,28 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
     }
   };
 
+  const handleGenerateName = () => {
+    const generatedName = generatePlantName(type);
+    setName(generatedName);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 bg-white/90 rounded-2xl shadow-md border-2 border-kitty-pink">
       <div className="space-y-2">
-        <Label htmlFor="plant-name" className="text-lg font-bold">
-          Имя цветочка:
-        </Label>
+        <div className="flex justify-between items-center">
+          <Label htmlFor="plant-name" className="text-lg font-bold">
+            Имя цветочка:
+          </Label>
+          <Button 
+            type="button" 
+            variant="outline"
+            size="sm"
+            className="text-xs border-kitty-pink text-kitty-pink hover:bg-kitty-pink hover:text-white"
+            onClick={handleGenerateName}
+          >
+            Придумать имя
+          </Button>
+        </div>
         <Input
           id="plant-name"
           placeholder="Введите имя..."
