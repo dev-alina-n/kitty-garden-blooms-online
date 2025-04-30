@@ -2,35 +2,35 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Голова -->
   <path d="M40 100C40 55 75 20 120 20C165 20 180 55 180 100C180 145 150 170 120 170C90 170 40 145 40 100Z" 
-        fill="white" stroke="black" stroke-width="4"/>
+        fill="white" stroke="#FF9EC2" stroke-width="8"/>
   
   <!-- Левое ухо -->
   <path d="M40 40C40 40 30 10 50 10C70 10 60 40 60 40" 
-        fill="white" stroke="black" stroke-width="4"/>
+        fill="white" stroke="#FF9EC2" stroke-width="8"/>
   
   <!-- Правое ухо -->
   <path d="M160 40C160 40 150 10 170 10C190 10 180 40 180 40" 
-        fill="white" stroke="black" stroke-width="4"/>
+        fill="white" stroke="#FF9EC2" stroke-width="8"/>
   
   <!-- Бант -->
   <path d="M140 30C140 30 160 20 160 35C160 50 140 40 140 40L120 35L140 30Z" 
-        fill="#FF0000" stroke="black" stroke-width="2"/>
+        fill="#FF0000" stroke="#FF0000" stroke-width="2"/>
   <path d="M100 30C100 30 80 20 80 35C80 50 100 40 100 40L120 35L100 30Z" 
-        fill="#FF0000" stroke="black" stroke-width="2"/>
-  <circle cx="120" cy="35" r="6" fill="#FF0000" stroke="black" stroke-width="2"/>
+        fill="#FF0000" stroke="#FF0000" stroke-width="2"/>
+  <circle cx="120" cy="35" r="6" fill="#FF0000" stroke="#FF0000" stroke-width="2"/>
   
   <!-- Глаза -->
-  <ellipse cx="90" cy="90" rx="6" ry="8" fill="black"/>
-  <ellipse cx="150" cy="90" rx="6" ry="8" fill="black"/>
+  <ellipse cx="90" cy="90" rx="6" ry="8" fill="#FF9EC2"/>
+  <ellipse cx="150" cy="90" rx="6" ry="8" fill="#FF9EC2"/>
   
   <!-- Нос -->
-  <circle cx="120" cy="105" r="4" fill="#FFD700"/>
+  <circle cx="120" cy="105" r="4" fill="#FFD1E3"/>
   
   <!-- Усы -->
-  <path d="M110 100L90 95M110 105L90 110" stroke="black" stroke-width="2"/>
-  <path d="M130 100L150 95M130 105L150 110" stroke="black" stroke-width="2"/>
+  <path d="M110 100L90 95M110 105L90 110" stroke="#FF9EC2" stroke-width="3"/>
+  <path d="M130 100L150 95M130 105L150 110" stroke="#FF9EC2" stroke-width="3"/>
   
   <!-- Румянец -->
-  <circle cx="75" cy="110" r="8" fill="#FFB6C1" opacity="0.5"/>
-  <circle cx="165" cy="110" r="8" fill="#FFB6C1" opacity="0.5"/>
-</svg> 
+  <circle cx="75" cy="110" r="10" fill="#FF9EC2" opacity="0.6"/>
+  <circle cx="165" cy="110" r="10" fill="#FF9EC2" opacity="0.6"/>
+</svg>
