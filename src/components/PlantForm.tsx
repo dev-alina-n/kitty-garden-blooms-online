@@ -37,6 +37,16 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
     setName(generatedName);
   };
 
+  // Define color display names for better clarity
+  const colorNames: Record<string, string> = {
+    pink: "Розовый",
+    red: "Красный",
+    blue: "Синий",
+    yellow: "Жёлтый",
+    green: "Зелёный",
+    purple: "Фиолетовый"
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 bg-white/90 rounded-2xl shadow-md border-2 border-kitty-pink">
       <div className="space-y-2">
@@ -83,17 +93,24 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
       </div>
 
       <div className="space-y-2">
-        <Label className="text-lg font-bold">Цвет:</Label>
-        <div className="flex flex-wrap gap-2">
+        <Label className="text-lg font-bold">Выберите цвет:</Label>
+        <div className="grid grid-cols-3 gap-3">
           {["pink", "red", "blue", "yellow", "green", "purple"].map((c) => (
             <div
               key={c}
-              className={`w-8 h-8 rounded-full cursor-pointer transform transition-transform ${
-                color === c ? "ring-4 ring-black/20 scale-110" : ""
+              className={`flex flex-col items-center gap-1 cursor-pointer transform transition-transform ${
+                color === c ? "scale-110" : ""
               }`}
-              style={{ backgroundColor: `var(--kitty-${c})` }}
               onClick={() => setColor(c)}
-            />
+            >
+              <div 
+                className={`w-10 h-10 rounded-full border-2 ${
+                  color === c ? "border-black shadow-lg" : "border-gray-200"
+                }`}
+                style={{ backgroundColor: `var(--kitty-${c})` }}
+              />
+              <span className="text-xs font-medium">{colorNames[c]}</span>
+            </div>
           ))}
         </div>
       </div>
