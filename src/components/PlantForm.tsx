@@ -94,20 +94,28 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
       <div className="space-y-2">
         <Label className="text-lg font-bold">Выберите цвет:</Label>
         <div className="grid grid-cols-3 gap-3">
-          {["pink", "red", "blue", "yellow", "green", "purple"].map((c) => (
+          {[
+            { key: "pink", color: "#FF9EC2" },
+            { key: "red", color: "#FB4570" },
+            { key: "blue", color: "#64C7FA" },
+            { key: "yellow", color: "#FFE55E" },
+            { key: "green", color: "#8CD672" },
+            { key: "purple", color: "#D6BCFA" }
+          ].map(({ key, color: colorValue }) => (
             <div
-              key={c}
+              key={key}
               className={`flex flex-col items-center gap-1 cursor-pointer transform transition-transform ${
-                color === c ? "scale-110" : ""
+                color === key ? "scale-110" : ""
               }`}
-              onClick={() => setColor(c)}
+              onClick={() => setColor(key)}
             >
               <div 
                 className={`w-10 h-10 rounded-full border-2 ${
-                  color === c ? "border-black shadow-lg" : "border-gray-200"
-                } bg-kitty-${c}`}
+                  color === key ? "border-black shadow-lg" : "border-gray-200"
+                }`}
+                style={{ backgroundColor: colorValue }}
               />
-              <span className="text-xs font-medium">{colorNames[c]}</span>
+              <span className="text-xs font-medium">{colorNames[key]}</span>
             </div>
           ))}
         </div>

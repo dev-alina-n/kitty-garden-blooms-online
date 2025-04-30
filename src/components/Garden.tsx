@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Plant, PlantType } from "./Plant";
 import { PlantForm } from "./PlantForm";
@@ -91,7 +90,7 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
       </div>
 
       {isFormOpen && (
-        <div className="fixed bottom-20 right-4 z-40 w-72 md:w-80">
+        <div className="fixed bottom-32 right-4 z-40 w-72 md:w-80">
           <PlantForm onAddPlant={handleAddPlant} />
         </div>
       )}
