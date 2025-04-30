@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Flower, Sprout } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,6 +24,7 @@ export const Plant: React.FC<PlantProps> = ({
   className,
 }) => {
   const [isGrowing, setIsGrowing] = useState(true);
+  const [hasBlossomed, setHasBlossomed] = useState(false);
   const colorClasses = {
     pink: "text-kitty-pink",
     red: "text-kitty-red",
@@ -36,13 +36,15 @@ export const Plant: React.FC<PlantProps> = ({
 
   const colorClass = colorClasses[color as keyof typeof colorClasses] || colorClasses.pink;
 
-  // Set growing to false after animation completes
+  // Управление анимацией роста и цветения
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    const growTimer = setTimeout(() => {
       setIsGrowing(false);
-    }, 1500);
+      // Начинаем анимацию цветения после завершения роста
+      setHasBlossomed(true);
+    }, 2000);
     
-    return () => clearTimeout(timer);
+    return () => clearTimeout(growTimer);
   }, []);
 
   return (
@@ -55,22 +57,39 @@ export const Plant: React.FC<PlantProps> = ({
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
-        zIndex: Math.floor(position.y),
+        zIndex: 30,
       }}
       id={`plant-${id}`}
     >
-      {type === "flower" ? (
-        <Flower 
-          className={cn("h-10 w-10 md:h-12 md:w-12", colorClass)} 
-          size={size * 32}
-        />
-      ) : (
-        <Sprout 
-          className={cn("h-10 w-10 md:h-12 md:w-12", colorClass)} 
-          size={size * 32}
-        />
-      )}
-      <span className="mt-1 text-xs font-bold bg-white/80 px-2 py-0.5 rounded-full shadow-sm">
+      <div className={cn(
+        "transition-all duration-300",
+        hasBlossomed && "animate-flower-bloom"
+      )}>
+        {type === "flower" ? (
+          <Flower 
+            className={cn(
+              "h-10 w-10 md:h-12 md:w-12",
+              colorClass,
+              "transition-all duration-300"
+            )} 
+            size={size * 32}
+          />
+        ) : (
+          <Sprout 
+            className={cn(
+              "h-10 w-10 md:h-12 md:w-12",
+              colorClass,
+              "transition-all duration-300"
+            )} 
+            size={size * 32}
+          />
+        )}
+      </div>
+      <span className={cn(
+        "mt-1 text-xs font-bold bg-white/80 px-2 py-0.5 rounded-full shadow-sm",
+        "transition-opacity duration-300",
+        isGrowing ? "opacity-0" : "opacity-100"
+      )}>
         {name}
       </span>
     </div>

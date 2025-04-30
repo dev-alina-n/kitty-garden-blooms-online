@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -106,8 +105,7 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
               <div 
                 className={`w-10 h-10 rounded-full border-2 ${
                   color === c ? "border-black shadow-lg" : "border-gray-200"
-                }`}
-                style={{ backgroundColor: `var(--kitty-${c})` }}
+                } bg-kitty-${c}`}
               />
               <span className="text-xs font-medium">{colorNames[c]}</span>
             </div>

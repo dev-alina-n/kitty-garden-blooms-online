@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -89,20 +88,29 @@ export default {
 					to: { height: '0' }
 				},
 				'plant-grow': {
-					'0%': { transform: 'scale(0.5)', opacity: '0.7' },
-					'50%': { transform: 'scale(0.8)', opacity: '0.85' },
-					'100%': { transform: 'scale(1)', opacity: '1' }
+					'0%': { transform: 'scale(0) translateY(20px)', opacity: '0' },
+					'50%': { transform: 'scale(0.5) translateY(10px)', opacity: '0.5' },
+					'75%': { transform: 'scale(0.8) translateY(5px)', opacity: '0.8' },
+					'100%': { transform: 'scale(1) translateY(0)', opacity: '1' }
 				},
 				'bounce-light': {
-					'0%, 100%': { transform: 'translateY(0)' },
-					'50%': { transform: 'translateY(-5px)' }
+					'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+					'25%': { transform: 'translateY(-3px) rotate(2deg)' },
+					'75%': { transform: 'translateY(-2px) rotate(-2deg)' }
+				},
+				'flower-bloom': {
+					'0%': { transform: 'scale(0.3) rotate(-10deg)', opacity: '0' },
+					'50%': { transform: 'scale(0.8) rotate(5deg)', opacity: '0.7' },
+					'75%': { transform: 'scale(1.1) rotate(-2deg)', opacity: '0.9' },
+					'100%': { transform: 'scale(1) rotate(0)', opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'plant-grow': 'plant-grow 1.5s ease-out forwards',
-				'bounce-light': 'bounce-light 2s ease-in-out infinite'
+				'plant-grow': 'plant-grow 2s ease-out forwards',
+				'bounce-light': 'bounce-light 3s ease-in-out infinite',
+				'flower-bloom': 'flower-bloom 2.5s ease-out forwards'
 			},
 			backgroundImage: {
 				'garden-pattern': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6TTIwIDIwYzAgMTEuNS0yMCAyMC0yMCAyMGgyMHYtMjB6bTAgMGMwLTExLjUgMjAtMjAgMjAtMjBoLTIwdjIweiIvPjwvZz48L2c+PC9zdmc+')"
