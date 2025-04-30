@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				kitty: {
+					pink: '#FF9EC2',
+					'light-pink': '#FFD1E3',
+					red: '#FB4570',
+					blue: '#64C7FA',
+					yellow: '#FFE55E',
+					green: '#8CD672',
+					purple: '#D6BCFA',
+					white: '#FFFFFF'
+				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -70,25 +81,31 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'plant-grow': {
+					'0%': { transform: 'scale(0.5)', opacity: '0.7' },
+					'50%': { transform: 'scale(0.8)', opacity: '0.85' },
+					'100%': { transform: 'scale(1)', opacity: '1' }
+				},
+				'bounce-light': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-5px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'plant-grow': 'plant-grow 1.5s ease-out forwards',
+				'bounce-light': 'bounce-light 2s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'garden-pattern': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6TTIwIDIwYzAgMTEuNS0yMCAyMC0yMCAyMGgyMHYtMjB6bTAgMGMwLTExLjUgMjAtMjAgMjAtMjBoLTIwdjIweiIvPjwvZz48L2c+PC9zdmc+')"
 			}
 		}
 	},
