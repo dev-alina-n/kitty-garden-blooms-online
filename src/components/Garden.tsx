@@ -4,6 +4,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { PlantDialog } from './PlantDialog';
 import { MagicPlantDialog } from './MagicPlantDialog';
 import { PlantForm } from './PlantForm';
+import { Flower, Sprout } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PlantData {
   id: string;
@@ -16,8 +18,6 @@ interface PlantData {
 interface MagicPlant {
   id: string;
   name: string;
-  description: string;
-  magicalProperties: string;
   legend: string;
   position: { x: number; y: number };
 }
@@ -160,23 +160,36 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
               top: `${plant.position.y}%`
             }}
           >
-            {plant.type === 'flower' ? (
-              <div className="w-10 h-10 relative">
-                <div className="w-2 h-8 bg-green-600 mx-auto plant-stem">
-                  <div className="plant-leaf left" />
-                  <div className="plant-leaf right" />
-                </div>
-                <div className={`w-10 h-10 rounded-full ${plant.color} transform rotate-45 plant-flower`} />
-              </div>
-            ) : (
-              <div className="w-10 h-10 relative">
-                <div className="w-2 h-8 bg-green-600 mx-auto plant-stem">
-                  <div className="plant-leaf left" />
-                  <div className="plant-leaf right" />
-                </div>
-                <div className="w-10 h-10 rounded-full bg-red-500 plant-flower" />
-              </div>
-            )}
+            <div className="w-10 h-10 relative">
+              {plant.type === 'flower' ? (
+                <Flower 
+                  className={cn(
+                    "h-10 w-10",
+                    "transition-all duration-300 plant-flower"
+                  )}
+                  fill={plant.color === 'bg-kitty-pink' ? '#FF9EC2' :
+                        plant.color === 'bg-kitty-red' ? '#FB4570' :
+                        plant.color === 'bg-kitty-blue' ? '#64C7FA' :
+                        plant.color === 'bg-kitty-yellow' ? '#FFD700' :
+                        plant.color === 'bg-kitty-green' ? '#2ecc71' :
+                        '#FF9EC2'}
+                  stroke="#000"
+                  strokeWidth={1}
+                  size={32}
+                />
+              ) : (
+                <Sprout 
+                  className={cn(
+                    "h-10 w-10",
+                    "transition-all duration-300 plant-flower"
+                  )}
+                  fill="#FF6B6B"
+                  stroke="#000"
+                  strokeWidth={1}
+                  size={32}
+                />
+              )}
+            </div>
             <div className="text-xs text-center mt-1 bg-white/80 px-2 py-1 rounded-full plant-name">
               {plant.name}
             </div>
@@ -192,15 +205,19 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
               top: `${plant.position.y}%`
             }}
           >
-            <div className="w-12 h-12 relative plant-magic">
+            <div className="w-12 h-12 relative plant-magic group">
               <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse plant-magic-glow" />
               <div className="absolute inset-0 flex items-center justify-center text-white text-lg">
                 ✨
               </div>
-              <div className="w-2 h-6 bg-green-600 mx-auto plant-stem" />
-            </div>
-            <div className="text-xs text-center mt-1 bg-white/80 px-1 rounded plant-name">
-              {plant.name}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="text-xs text-center bg-white/90 px-2 py-1 rounded-t plant-name">
+                  {plant.name}
+                </div>
+                <div className="text-xs text-center bg-white/90 px-2 py-1 rounded-b plant-description">
+                  {plant.legend}
+                </div>
+              </div>
             </div>
           </div>
         ))}

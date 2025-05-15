@@ -17,7 +17,7 @@ interface PlantFormProps {
 export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
   const [name, setName] = useState("");
   const [type, setType] = useState<PlantType>("flower");
-  const [color, setColor] = useState("bg-red-500");
+  const [color, setColor] = useState("bg-kitty-pink");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
     });
     setName("");
     setType("flower");
-    setColor("bg-red-500");
+    setColor("bg-kitty-pink");
   };
 
   const handleGenerateName = () => {
@@ -96,11 +96,11 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
               <SelectValue placeholder="Выберите цвет" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="bg-red-500">Красный</SelectItem>
-              <SelectItem value="bg-pink-500">Розовый</SelectItem>
-              <SelectItem value="bg-purple-500">Фиолетовый</SelectItem>
-              <SelectItem value="bg-blue-500">Синий</SelectItem>
-              <SelectItem value="bg-yellow-500">Желтый</SelectItem>
+              <SelectItem value="bg-kitty-red">Красный</SelectItem>
+              <SelectItem value="bg-kitty-pink">Розовый</SelectItem>
+              <SelectItem value="bg-kitty-blue">Синий</SelectItem>
+              <SelectItem value="bg-kitty-yellow">Желтый</SelectItem>
+              <SelectItem value="bg-kitty-green">Зеленый</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -17,8 +17,6 @@ interface MagicPlantDialogProps {
 
 interface MagicPlant {
     name: string;
-    description: string;
-    magicalProperties: string;
     legend: string;
 }
 
@@ -30,8 +28,6 @@ const systemPrompt: Message = {
     ВАЖНО: Ответ должен быть ТОЛЬКО в формате JSON, без дополнительного текста:
     {
         "name": "Название растения",
-        "description": "Краткое описание внешнего вида",
-        "magicalProperties": "Магические свойства и эффекты",
         "legend": "Короткая легенда о происхождении растения"
     }
     
@@ -50,7 +46,7 @@ export function MagicPlantDialog({ isOpen, onClose, onPlantCreated }: MagicPlant
         try {
             const response = await sendMessage([systemPrompt, {
                 role: 'user',
-                content: 'Создай новое волшебное растение для моего сада! Ответ должен быть только в формате JSON.'
+                content: 'Создай новое волшебное растение для моего сада! Ответ должен быть только в формате JSON с полями name и legend.'
             }]);
 
             console.log('Получен ответ от LLM:', response);
@@ -63,7 +59,7 @@ export function MagicPlantDialog({ isOpen, onClose, onPlantCreated }: MagicPlant
                 const plant = JSON.parse(cleanResponse);
                 
                 // Проверяем наличие всех необходимых полей
-                const requiredFields = ['name', 'description', 'magicalProperties', 'legend'];
+                const requiredFields = ['name', 'legend'];
                 const missingFields = requiredFields.filter(field => !plant[field]);
                 
                 if (missingFields.length > 0) {
