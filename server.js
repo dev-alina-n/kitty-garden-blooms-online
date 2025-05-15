@@ -33,7 +33,9 @@ async function getGigaChatToken() {
         return currentToken.access_token;
     }
 
-    const authKey = process.env.GIGACHAT_AUTH_KEY;
+    // Используем значение из переменных окружения или жестко закодированное значение для разработки
+    const authKey = process.env.GIGACHAT_AUTH_KEY || 'NjVjMGJmNzItNjU0OC00OGM1LWI1OWQtNGE0OGM2MDIwZWFjOjgxODAyMjM3LTkxNTUtNDJkMy05NGIxLTRmODBhMzcxNjAwZQ==';
+    
     if (!authKey) {
         throw new Error('GigaChat auth key is not configured');
     }
@@ -107,4 +109,4 @@ app.post('/api/chat', async (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-}); 
+});
