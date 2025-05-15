@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Plant, PlantType } from "./Plant";
-import { PlantForm } from "./PlantForm";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { generateRandomPosition } from "@/lib/utils";
+import { PlantDialog } from './PlantDialog';
+import { MagicPlantDialog } from './MagicPlantDialog';
+import { PlantForm } from './PlantForm';
+import { Flower, Sprout } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PlantData {
   id: string;
-  type: PlantType;
+  type: 'flower' | 'strawberry';
   name: string;
   position: { x: number; y: number };
   color: string;
+}
+
+interface MagicPlant {
+  id: string;
+  name: string;
+  legend: string;
+  position: { x: number; y: number };
 }
 
 interface GardenProps {
@@ -19,7 +28,10 @@ interface GardenProps {
 
 export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
   const [plants, setPlants] = useState<PlantData[]>([]);
+  const [magicPlants, setMagicPlants] = useState<MagicPlant[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isPlantDialogOpen, setIsPlantDialogOpen] = useState(false);
+  const [isMagicPlantDialogOpen, setIsMagicPlantDialogOpen] = useState(false);
   const { toast } = useToast();
   const currentGardenId = gardenId || 'my-garden';
 
@@ -33,6 +45,12 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
         console.error('Failed to load garden:', e);
       }
     }
+
+    // Загрузка волшебных растений из localStorage
+    const savedMagicPlants = localStorage.getItem('gardenMagicPlants');
+    if (savedMagicPlants) {
+      setMagicPlants(JSON.parse(savedMagicPlants));
+    }
   }, [currentGardenId]);
 
   // Save garden data to localStorage whenever plants change
@@ -42,11 +60,19 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
     }
   }, [plants, currentGardenId]);
 
-  const handleAddPlant = (plantData: { type: PlantType; name: string; color: string }) => {
+  useEffect(() => {
+    // Сохранение волшебных растений в localStorage
+    localStorage.setItem('gardenMagicPlants', JSON.stringify(magicPlants));
+  }, [magicPlants]);
+
+  const handleAddPlant = (plantData: { type: 'flower' | 'strawberry'; name: string; color: string }) => {
     const newPlant = {
       id: `plant-${Date.now()}`,
       ...plantData,
-      position: generateRandomPosition(80, 80),
+      position: {
+        x: Math.random() * 80 + 10,
+        y: Math.random() * 80 + 10
+      }
     };
 
     setPlants([...plants, newPlant]);
@@ -59,11 +85,32 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
     });
   };
 
+  const handleMagicPlantCreated = (plant: Omit<MagicPlant, 'id' | 'position'>) => {
+    const newMagicPlant: MagicPlant = {
+      ...plant,
+      id: crypto.randomUUID(),
+      position: {
+        x: Math.random() * 80 + 10,
+        y: Math.random() * 80 + 10
+      }
+    };
+    setMagicPlants(prev => [...prev, newMagicPlant]);
+    
+    toast({
+      title: "Волшебное растение создано!",
+      description: `${plant.name} теперь растет в вашем саду.`,
+      duration: 3000,
+    });
+  };
+
   const handleShareGarden = () => {
-    // In a real app, we might use a database and generate a proper shareable link
-    // For now, we'll just copy the current URL
-    const url = window.location.href;
-    navigator.clipboard.writeText(url);
+    const gardenData = {
+      plants,
+      magicPlants
+    };
+    const gardenId = btoa(JSON.stringify(gardenData));
+    const shareUrl = `${window.location.origin}?id=${gardenId}`;
+    navigator.clipboard.writeText(shareUrl);
     
     toast({
       title: "Ссылка скопирована!",
@@ -80,6 +127,12 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
           className="rounded-full w-14 h-14 bg-kitty-red hover:bg-kitty-pink text-white shadow-lg"
         >
           {isFormOpen ? "×" : "+"}
+        </Button>
+        <Button 
+          onClick={() => setIsMagicPlantDialogOpen(true)}
+          className="rounded-full w-14 h-14 bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
+        >
+          ✨
         </Button>
         <Button 
           onClick={handleShareGarden} 
@@ -99,31 +152,111 @@ export const Garden: React.FC<GardenProps> = ({ gardenId }) => {
         <div className="absolute inset-0 bg-garden-pattern opacity-10"></div>
         
         {plants.map((plant) => (
-          <Plant
+          <div
             key={plant.id}
-            id={plant.id}
-            type={plant.type}
-            name={plant.name}
-            position={plant.position}
-            color={plant.color}
-          />
+            className="absolute transform -translate-x-1/2 -translate-y-1/2 plant-grow"
+            style={{
+              left: `${plant.position.x}%`,
+              top: `${plant.position.y}%`
+            }}
+          >
+            <div className="w-10 h-10 relative">
+              {plant.type === 'flower' ? (
+                <Flower 
+                  className={cn(
+                    "h-10 w-10",
+                    "transition-all duration-300 plant-flower"
+                  )}
+                  fill={plant.color === 'bg-kitty-pink' ? '#FF9EC2' :
+                        plant.color === 'bg-kitty-red' ? '#FB4570' :
+                        plant.color === 'bg-kitty-blue' ? '#64C7FA' :
+                        plant.color === 'bg-kitty-yellow' ? '#FFD700' :
+                        plant.color === 'bg-kitty-green' ? '#2ecc71' :
+                        '#FF9EC2'}
+                  stroke="#000"
+                  strokeWidth={1}
+                  size={32}
+                />
+              ) : (
+                <Sprout 
+                  className={cn(
+                    "h-10 w-10",
+                    "transition-all duration-300 plant-flower"
+                  )}
+                  fill="#FF6B6B"
+                  stroke="#000"
+                  strokeWidth={1}
+                  size={32}
+                />
+              )}
+            </div>
+            <div className="text-xs text-center mt-1 bg-white/80 px-2 py-1 rounded-full plant-name">
+              {plant.name}
+            </div>
+          </div>
         ))}
 
-        {plants.length === 0 && (
+        {magicPlants.map((plant) => (
+          <div
+            key={plant.id}
+            className="absolute transform -translate-x-1/2 -translate-y-1/2 plant-grow"
+            style={{
+              left: `${plant.position.x}%`,
+              top: `${plant.position.y}%`
+            }}
+          >
+            <div className="w-12 h-12 relative plant-magic group">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse plant-magic-glow" />
+              <div className="absolute inset-0 flex items-center justify-center text-white text-lg">
+                ✨
+              </div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="text-xs text-center bg-white/90 px-2 py-1 rounded-t plant-name">
+                  {plant.name}
+                </div>
+                <div className="text-xs text-center bg-white/90 px-2 py-1 rounded-b plant-description">
+                  {plant.legend}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {plants.length === 0 && magicPlants.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center p-6 bg-white/70 rounded-xl shadow-md">
               <h2 className="text-xl mb-2">Ваш сад пуст!</h2>
-              <p className="mb-4">Нажмите кнопку "+" чтобы посадить первый цветочек</p>
-              <Button 
-                onClick={() => setIsFormOpen(true)} 
-                className="bg-kitty-pink hover:bg-kitty-red text-white"
-              >
-                Посадить цветочек
-              </Button>
+              <p className="mb-4">Нажмите кнопку "+" чтобы посадить первый цветочек или "✨" для волшебного растения</p>
+              <div className="flex gap-2 justify-center">
+                <Button 
+                  onClick={() => setIsFormOpen(true)} 
+                  className="bg-kitty-pink hover:bg-kitty-red text-white"
+                >
+                  Посадить цветочек
+                </Button>
+                <Button 
+                  onClick={() => setIsMagicPlantDialogOpen(true)}
+                  className="bg-purple-500 hover:bg-purple-600 text-white"
+                >
+                  Вырастить волшебное растение
+                </Button>
+              </div>
             </div>
           </div>
         )}
       </div>
+
+      <PlantDialog
+        isOpen={isPlantDialogOpen}
+        onClose={() => setIsPlantDialogOpen(false)}
+        onPlantCreated={handleAddPlant}
+      />
+
+      <MagicPlantDialog
+        isOpen={isMagicPlantDialogOpen}
+        onClose={() => setIsMagicPlantDialogOpen(false)}
+        onPlantCreated={handleMagicPlantCreated}
+      />
     </div>
   );
 };
