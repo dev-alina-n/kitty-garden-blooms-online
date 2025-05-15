@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlantType } from "./Plant";
 import { generatePlantName } from "@/lib/utils";
 
@@ -17,18 +17,20 @@ interface PlantFormProps {
 export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
   const [name, setName] = useState("");
   const [type, setType] = useState<PlantType>("flower");
-  const [color, setColor] = useState("pink");
+  const [color, setColor] = useState("bg-red-500");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim()) {
-      onAddPlant({
-        type,
-        name: name.trim(),
-        color,
-      });
-      setName("");
-    }
+    if (!name.trim()) return;
+
+    onAddPlant({
+      type,
+      name: name.trim(),
+      color,
+    });
+    setName("");
+    setType("flower");
+    setColor("bg-red-500");
   };
 
   const handleGenerateName = () => {
@@ -75,51 +77,34 @@ export const PlantForm: React.FC<PlantFormProps> = ({ onAddPlant }) => {
 
       <div className="space-y-2">
         <Label className="text-lg font-bold">Тип растения:</Label>
-        <RadioGroup 
-          defaultValue={type}
-          className="flex space-x-4"
-          onValueChange={(value) => setType(value as PlantType)}
-        >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="flower" id="flower" />
-            <Label htmlFor="flower">Цветок</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="strawberry" id="strawberry" />
-            <Label htmlFor="strawberry">Клубничка</Label>
-          </div>
-        </RadioGroup>
+        <Select value={type} onValueChange={(value: PlantType) => setType(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Выберите тип" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="flower">Цветок</SelectItem>
+            <SelectItem value="strawberry">Клубника</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div className="space-y-2">
-        <Label className="text-lg font-bold">Выберите цвет:</Label>
-        <div className="grid grid-cols-3 gap-3">
-          {[
-            { key: "pink", color: "#FF9EC2" },
-            { key: "red", color: "#FB4570" },
-            { key: "blue", color: "#64C7FA" },
-            { key: "yellow", color: "#FFE55E" },
-            { key: "green", color: "#8CD672" },
-            { key: "purple", color: "#D6BCFA" }
-          ].map(({ key, color: colorValue }) => (
-            <div
-              key={key}
-              className={`flex flex-col items-center gap-1 cursor-pointer transform transition-transform ${
-                color === key ? "scale-110" : ""
-              }`}
-              onClick={() => setColor(key)}
-            >
-              <div 
-                className={`w-10 h-10 rounded-full border-2 ${
-                  color === key ? "border-black shadow-lg" : "border-gray-200"
-                }`}
-                style={{ backgroundColor: colorValue }}
-              />
-              <span className="text-xs font-medium">{colorNames[key]}</span>
-            </div>
-          ))}
+      {type === "flower" && (
+        <div className="space-y-2">
+          <Label className="text-lg font-bold">Выберите цвет:</Label>
+          <Select value={color} onValueChange={setColor}>
+            <SelectTrigger>
+              <SelectValue placeholder="Выберите цвет" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="bg-red-500">Красный</SelectItem>
+              <SelectItem value="bg-pink-500">Розовый</SelectItem>
+              <SelectItem value="bg-purple-500">Фиолетовый</SelectItem>
+              <SelectItem value="bg-blue-500">Синий</SelectItem>
+              <SelectItem value="bg-yellow-500">Желтый</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-      </div>
+      )}
 
       <Button 
         type="submit" 
